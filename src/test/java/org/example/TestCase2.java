@@ -16,6 +16,7 @@ import java.time.Duration;
 public class TestCase2 {
     public WebDriver driver;
     public WebDriverWait waitDriver;
+    String desc = "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.";
     @BeforeClass
     public void setUp() {
         driver = new ChromeDriver();
@@ -54,16 +55,16 @@ public class TestCase2 {
     public void VerifySLBdetails(){
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_details_desc_container")));
 
-        String actualTitle = driver.findElement(By.className("inventory_details_name large_size")).getText();
+        String actualTitle = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[1]")).getText();
         Assert.assertEquals(actualTitle, "Sauce Labs Backpack");
         System.out.println("Sauce Labs Backpack title is displayed");
 
-        String actualDesc = driver.findElement(By.className("inventory_details_desc large_size")).getText();
-        Assert.assertEquals(actualTitle, "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.");
+        String actualDesc = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[2]")).getText();
+        Assert.assertEquals(actualDesc, desc);
         System.out.println("Description is displayed");
 
-        String actualPrice = driver.findElement(By.className("inventory_details_price")).getText();
-        Assert.assertEquals(actualTitle, "$29.99");
+        String actualPrice = driver.findElement(By.xpath("//*[@id=\"inventory_item_container\"]/div/div/div[2]/div[3]")).getText();
+        Assert.assertEquals(actualPrice, "$29.99");
         System.out.println("Price is displayed");
 
         System.out.println("Title, description and price are displayed");
