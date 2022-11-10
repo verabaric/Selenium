@@ -43,7 +43,7 @@ public class MainTest {
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.id("page_wrapper")));
         System.out.println("Login was successful");
     }
-    @Test(priority = 2)
+    @Test(priority = 2, dependsOnMethods = "login")
     public void VerifyHeader(){
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.id("header_container")));
         String actualHeader = driver.findElement(By.className("title")).getText();
@@ -53,45 +53,39 @@ public class MainTest {
         //Assert.assertTrue(isHeaderDisplayed,"PRODUCTS header is displayed");
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, dependsOnMethods = "VerifyHeader")
     public void VerifyShoppingCart(){
         boolean isShopppingCartDisplayed = driver.findElement(By.id("shopping_cart_container")).isDisplayed();
         Assert.assertTrue(isShopppingCartDisplayed,"Shopping Cart is displayed");
         System.out.println("Shopping Cart is displayed");
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4, dependsOnMethods = "VerifyShoppingCart")
     public void VerifyBurgerMenu(){
         boolean isBurgerMenuDisplayed = driver.findElement(By.id("menu_button_container")).isDisplayed();
         Assert.assertTrue(isBurgerMenuDisplayed,"Menu is displayed");
         System.out.println("Menu is displayed");
     }
 
-    @Test(priority = 5)
+    @Test(priority = 5, dependsOnMethods = "VerifyBurgerMenu")
     public void VerifyFacebookLink(){
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("social_facebook")));
-        boolean isFacebookEnabled = driver.findElement(By.xpath("//*[@id=\"page_wrapper\"]/footer/ul/li[2]/a")).isEnabled();
-        Assert.assertTrue(isFacebookEnabled,"Facebook is enabled");
-        System.out.println("Facebook button is enabled");
+        System.out.println("Facebook button is displayed");
     }
 
-    @Test(priority = 6)
+    @Test(priority = 6, dependsOnMethods = "VerifyFacebookLink")
     public void VerifyTwitterLink(){
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("social_twitter")));
-        boolean isFTwitterEnabled = driver.findElement(By.xpath("//*[@id=\"page_wrapper\"]/footer/ul/li[1]/a")).isEnabled();
-        Assert.assertTrue(isFTwitterEnabled,"Twitter is enabled");
-        System.out.println("Twitter button is enabled");
+        System.out.println("Twitter button is displayed");
     }
 
-    @Test(priority = 7)
+    @Test(priority = 7, dependsOnMethods = "VerifyTwitterLink")
     public void VerifyLinkedInLink(){
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("social_linkedin")));
-        boolean isLinkedInEnabled = driver.findElement(By.xpath("//*[@id=\"page_wrapper\"]/footer/ul/li[3]/a")).isEnabled();
-        Assert.assertTrue(isLinkedInEnabled,"LinkedIn is enabled");
-        System.out.println("LinkedIn button is enabled");
+        System.out.println("LinkedIn button is displayed");
     }
 
-    @Test(priority = 8)
+    @Test(priority = 8, dependsOnMethods = "VerifyLinkedInLink")
     public void Logout(){
         WebElement meni = driver.findElement(By.className("bm-burger-button"));
         meni.click();

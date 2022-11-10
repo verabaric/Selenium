@@ -42,7 +42,7 @@ public class TestCase2 {
         System.out.println("Login successfully");
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, dependsOnMethods = "login")
     public void SLBitemSelected(){
         WebElement ranac = driver.findElement(By.id("item_4_title_link"));
         ranac.click();
@@ -50,18 +50,29 @@ public class TestCase2 {
         System.out.println("Sauce Labs Backpack Selected");
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, dependsOnMethods = "SLBitemSelected")
     public void VerifySLBdetails(){
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_details_desc_container")));
-        boolean isDetailsDisplayed = driver.findElement(By.className("inventory_details_desc_container")).isDisplayed();
-        Assert.assertTrue(isDetailsDisplayed,"Title, description and price are displayed");
+
+        String actualTitle = driver.findElement(By.className("inventory_details_name large_size")).getText();
+        Assert.assertEquals(actualTitle, "Sauce Labs Backpack");
+        System.out.println("Sauce Labs Backpack title is displayed");
+
+        String actualDesc = driver.findElement(By.className("inventory_details_desc large_size")).getText();
+        Assert.assertEquals(actualTitle, "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.");
+        System.out.println("Description is displayed");
+
+        String actualPrice = driver.findElement(By.className("inventory_details_price")).getText();
+        Assert.assertEquals(actualTitle, "$29.99");
+        System.out.println("Price is displayed");
+
         System.out.println("Title, description and price are displayed");
         WebElement add = driver.findElement(By.id("add-to-cart-sauce-labs-backpack"));
         add.click();
         System.out.println("Sauce Labs Backpack added to cart");
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4, dependsOnMethods = "VerifySLBdetails")
     public void BackButton(){
         WebElement goBack = driver.findElement(By.id("back-to-products"));
         goBack.click();
@@ -69,13 +80,13 @@ public class TestCase2 {
         System.out.println("Back button navigated user to initial webpage successfully");
     }
 
-    @Test(priority = 5)
+    @Test(priority = 5, dependsOnMethods = "BackButton")
     public void SLBLaddItem(){
         WebElement addSLBL = driver.findElement(By.id("add-to-cart-sauce-labs-bike-light"));
         addSLBL.click();
         System.out.println("Sauce Labs Bike Light added to cart");
     }
-    @Test(priority = 6)
+    @Test(priority = 6, dependsOnMethods = "SLBLaddItem")
     public void ShoppingCart(){
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("shopping_cart_container")));
         WebElement goToCart = driver.findElement(By.className("shopping_cart_link"));
@@ -83,14 +94,14 @@ public class TestCase2 {
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("cart_contents_container")));
         System.out.println("Shopping Cart opened successfully");
     }
-    @Test(priority = 7)
+    @Test(priority = 7, dependsOnMethods = "ShoppingCart")
     public void Checkout(){
         WebElement checkout = driver.findElement(By.id("checkout"));
         checkout.click();
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("checkout_info_container")));
         System.out.println("User navigated to checkout page successfully");
     }
-    @Test(priority = 8)
+    @Test(priority = 8, dependsOnMethods = "Checkout")
     public void OrderDetails(){
         WebElement firstname=driver.findElement(By.id("first-name"));
         WebElement lastname=driver.findElement(By.id("last-name"));
@@ -103,20 +114,20 @@ public class TestCase2 {
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("checkout_summary_container")));
         System.out.println("User information filled out successfully");
     }
-    @Test(priority = 9)
+    @Test(priority = 9, dependsOnMethods = "OrderDetails")
     public void Finish(){
         WebElement finish = driver.findElement(By.id("finish"));
         finish.click();
         waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.className("checkout_complete_container")));
         System.out.println("User navigated to checkout: complete page successfully");
     }
-    @Test(priority = 10)
+    @Test(priority = 10, dependsOnMethods = "Finish")
     public void ThankYouMessage(){
         boolean isMessageDisplayed = driver.findElement(By.className("complete-header")).isDisplayed();
         Assert.assertTrue(isMessageDisplayed,"Thank you message is displayed");
         System.out.println("Thank you message is displayed");
     }
-    @Test(priority = 11)
+    @Test(priority = 11, dependsOnMethods = "ThankYouMessage")
     public void Logout(){
         WebElement meni = driver.findElement(By.className("bm-burger-button"));
         meni.click();
